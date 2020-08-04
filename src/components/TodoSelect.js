@@ -13,15 +13,24 @@ const TodoSelectBlock = styled.div`
     font-weight: 100;
     margin-right: 10px;
     color: white;
+    cursor: pointer;
+    letter-spacing: 0.02rem;
+  }
+  span.select {
+    padding: 1px 7px;
+    background: #20c997;
+    border-radius: 5px;
+    color: #333333;
+    font-weight: 400;
   }
 `;
 
 function TodoSelect() {
   return (
     <TodoSelectBlock>
-      <span>ALL</span>
-      <span>Todo</span>
-      <span>Done</span>
+      <span className="select">ALL</span>
+      <span>TODO</span>
+      <span>DONE</span>
     </TodoSelectBlock>
   );
 }

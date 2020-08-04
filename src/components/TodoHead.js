@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { useTodoState } from '../TodoContext';
 
 const TodoHeadBlock = styled.div`
   width: 100%;
@@ -12,20 +13,43 @@ const TodoHeadBlock = styled.div`
     font-family: 'Noto Sans KR', sans-serif;
     font-weight: 100;
   }
+  .day {
+    color: #20c997;
+    font-size: 1rem;
+    font-weight: 400;
+    margin-top: -40px;
+    font-family: 'Noto Sans KR', sans-serif;
+  }
   .tasks-left {
     color: #20c997;
     font-size: 1.2rem;
     font-weight: 400;
-    margin-top: -30px;
+    margin-top: 10px;
     font-family: 'Noto Sans KR', sans-serif;
   }
 `;
 
 function TodoHead() {
+  const todos = useTodoState();
+  const undoneTasks = todos.filter((todo) => !todo.done);
+
+  const today = new Date();
+  const dateString = today.toLocaleDateString('ko-KR', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  });
+  const dayName = today.toLocaleDateString('ko-KR', { weekday: 'long' });
+
   return (
     <TodoHeadBlock>
       <h1>Todo</h1>
-      <div className="tasks-left">" You have 2 todos more! "</div>
+      <div className="day">
+        {dateString} {dayName}
+      </div>
+      <div className="tasks-left">
+        " You have {undoneTasks.length} todos more! "
+      </div>
     </TodoHeadBlock>
   );
 }

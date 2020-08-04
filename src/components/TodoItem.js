@@ -1,19 +1,20 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
-import { MdCheckBox, MdDelete } from 'react-icons/md';
+import { MdDelete } from 'react-icons/md';
+import { BsFillSquareFill } from 'react-icons/bs';
+import { useTodoDispatch } from '../TodoContext';
 
 const Remove = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
   margin-right: 20px;
-  color: #495057;
-  font-size: 1.1rem;
+  color: #212529;
+  font-size: 1rem;
   cursor: pointer;
   &:hover {
     color: #ff6b6b;
   }
-  display: none;
 `;
 
 const TodoItemBlock = styled.div`
@@ -22,21 +23,16 @@ const TodoItemBlock = styled.div`
   margin: 0 auto 5px;
   display: flex;
   align-items: center;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  &:hover {
-    ${Remove} {
-      display: initial;
-    }
-  }
+  padding-top: 15px;
+  padding-bottom: 15px;
 `;
 
 const CheckCircle = styled.div`
-  width: 26px;
-  height: 26px;
+  width: 20px;
+  height: 20px;
   border-radius: 3px;
-  border: 1px solid #495057;
-  font-size: 26px;
+  border: 1px solid #212529;
+  font-size: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -46,8 +42,8 @@ const CheckCircle = styled.div`
   ${(props) =>
     props.done &&
     css`
-      border: 1px solid #38d9a9;
-      color: #38d9a9;
+      border: 1px solid #20c997;
+      color: #20c997;
     `}
 `;
 
@@ -55,24 +51,30 @@ const Text = styled.div`
   flex: 1;
   font-size: 1rem;
   font-weight: bold;
-  color: #495057;
+  color: #212529;
   ${(props) =>
     props.done &&
     css`
-      color: #ced4da;
+      color: #adb5bd;
     `}
 `;
 
 function TodoItem({ id, done, text }) {
+  const dispatch = useTodoDispatch();
+  const onToggle = () => dispatch({ type: 'TOGGLE', id });
+  const onRemove = () => dispatch({ type: 'REMOVE', id });
+
   return (
     <TodoItemBlock>
-      <CheckCircle done={done}>{done && <MdCheckBox />}</CheckCircle>
+      <CheckCircle done={done} onClick={onToggle}>
+        {done && <BsFillSquareFill />}
+      </CheckCircle>
       <Text done={done}>{text}</Text>
-      <Remove>
+      <Remove onClick={onRemove}>
         <MdDelete />
       </Remove>
     </TodoItemBlock>
   );
 }
 
-export default TodoItem;
+export default React.memo(TodoItem);
