@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import styled from 'styled-components';
+import { useTodoSelect } from '../TodoContext';
 
 const TodoSelectBlock = styled.div`
   width: 60%;
@@ -8,29 +9,46 @@ const TodoSelectBlock = styled.div`
   align-items: center;
   padding-left: 10px;
   span {
+    padding: 1px 7px;
     font-family: 'Noto Sans KR', sans-serif;
     font-size: 1rem;
-    font-weight: 100;
+    font-weight: bold;
     margin-right: 10px;
     color: white;
     cursor: pointer;
     letter-spacing: 0.02rem;
   }
   span.select {
-    padding: 1px 7px;
     background: #20c997;
     border-radius: 5px;
     color: #333333;
-    font-weight: 400;
+    font-weight: bold;
   }
 `;
 
 function TodoSelect() {
+  const selectBox = useRef(null);
+
+  // const onclick = (e) => {
+  //   e.preventDefault();
+  //   for (var i = 0; i < selectBox.current.children.length; i++) {
+  //     selectBox.current.children[i].classList.remove('select');
+  //   }
+  //   e.target.classList.add('select');
+  // };
+
+  const [mode, setMode] = useTodoSelect();
+  const selectALL = () => setMode('ALL');
+  const selectTODO = () => setMode('TODO');
+  const selectDONE = () => setMode('DONE');
+
   return (
-    <TodoSelectBlock>
-      <span className="select">ALL</span>
-      <span>TODO</span>
-      <span>DONE</span>
+    <TodoSelectBlock ref={selectBox}>
+      <span className="select" onClick={selectALL}>
+        ALL
+      </span>
+      <span onClick={selectTODO}>TODO</span>
+      <span onClick={selectDONE}>DONE</span>
     </TodoSelectBlock>
   );
 }

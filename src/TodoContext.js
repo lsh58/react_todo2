@@ -1,4 +1,10 @@
-import React, { useReducer, createContext, useContext, useRef } from 'react';
+import React, {
+  useReducer,
+  createContext,
+  useContext,
+  useRef,
+  useState,
+} from 'react';
 
 const initialTodos = [
   {
@@ -41,16 +47,20 @@ function todoReducer(state, action) {
 const TodoStateContext = createContext();
 const TodoDispatchContext = createContext();
 const TodoNextIdContext = createContext();
+const TodoSelectContext = createContext();
 
 export function TodoProvider({ children }) {
   const [state, dispatch] = useReducer(todoReducer, initialTodos);
   const nextId = useRef(5);
+  const [mode, setMode] = useState('ALL');
 
   return (
     <TodoStateContext.Provider value={state}>
       <TodoDispatchContext.Provider value={dispatch}>
         <TodoNextIdContext.Provider value={nextId}>
-          {children}
+          <TodoSelectContext.Provider value={[mode, setMode]}>
+            {children}
+          </TodoSelectContext.Provider>
         </TodoNextIdContext.Provider>
       </TodoDispatchContext.Provider>
     </TodoStateContext.Provider>
@@ -67,4 +77,8 @@ export function useTodoDispatch() {
 
 export function useTodoNextId() {
   return useContext(TodoNextIdContext);
+}
+
+export function useTodoSelect() {
+  return useContext(TodoSelectContext);
 }
