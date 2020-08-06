@@ -48,7 +48,7 @@ function TodoHead() {
         {dateString} {dayName}
       </div>
       <div className="tasks-left">
-        " You have {undoneTasks.length} todos more! "
+        " 할 일이 {undoneTasks.length} 개 남았습니다. "
       </div>
     </TodoHeadBlock>
   );

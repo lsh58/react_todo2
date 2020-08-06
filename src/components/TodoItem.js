@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled, { css } from 'styled-components';
 import { MdDelete } from 'react-icons/md';
 import { BsFillSquareFill } from 'react-icons/bs';
@@ -46,12 +46,18 @@ const CheckCircle = styled.div`
       color: #20c997;
     `}
 `;
+const TextForm = styled.form`
+  flex: 1;
+`;
 
-const Text = styled.div`
+const Text = styled.input`
+  width: 100%;
   flex: 1;
   font-size: 1rem;
   font-weight: bold;
   color: #212529;
+  outline-style: none;
+  border: none;
   ${(props) =>
     props.done &&
     css`
@@ -60,6 +66,25 @@ const Text = styled.div`
 `;
 
 function TodoItem({ id, done, text }) {
+  const [value, setValue] = useState('');
+  const onChange = (e) => setValue(e.target.value);
+  const [isChange, setIsChange] = useState(false);
+  const editMode = (e) => {
+    e.preventDefault();
+    setIsChange(true);
+    setValue(e.target.value);
+  };
+  const onSubmit = (e) => {
+    e.preventDefault(); // 새로고침 방지
+    dispatch({
+      type: 'EDIT',
+      id,
+      value,
+    });
+    setIsChange(false);
+    setValue('');
+  };
+
   const dispatch = useTodoDispatch();
   const onToggle = () => dispatch({ type: 'TOGGLE', id });
   const onRemove = () => dispatch({ type: 'REMOVE', id });
@@ -69,7 +94,13 @@ function TodoItem({ id, done, text }) {
       <CheckCircle done={done} onClick={onToggle}>
         {done && <BsFillSquareFill />}
       </CheckCircle>
-      <Text done={done}>{text}</Text>
+      {isChange === false ? (
+        <Text done={done} value={text} onClick={editMode}></Text>
+      ) : (
+        <TextForm onSubmit={onSubmit}>
+          <Text autoFocus done={done} value={value} onChange={onChange}></Text>
+        </TextForm>
+      )}
       <Remove onClick={onRemove}>
         <MdDelete />
       </Remove>

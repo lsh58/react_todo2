@@ -1,6 +1,15 @@
 import React, { useRef } from 'react';
 import styled from 'styled-components';
 import { useTodoSelect } from '../TodoContext';
+import { generateMedia } from 'styled-media-query';
+
+const customMedia = generateMedia({
+  lgDesktop: '1350px',
+  mdDesktop: '1150px',
+  tablet: '960px',
+  smTablet: '740px',
+  mobile: '600px',
+});
 
 const TodoSelectBlock = styled.div`
   width: 60%;
@@ -8,6 +17,9 @@ const TodoSelectBlock = styled.div`
   display: flex;
   align-items: center;
   padding-left: 10px;
+  ${customMedia.lessThan('tablet')`
+   width: 90%;
+  `}
   span {
     padding: 1px 7px;
     font-family: 'Noto Sans KR', sans-serif;
@@ -29,26 +41,37 @@ const TodoSelectBlock = styled.div`
 function TodoSelect() {
   const selectBox = useRef(null);
 
-  // const onclick = (e) => {
-  //   e.preventDefault();
-  //   for (var i = 0; i < selectBox.current.children.length; i++) {
-  //     selectBox.current.children[i].classList.remove('select');
-  //   }
-  //   e.target.classList.add('select');
-  // };
-
   const [mode, setMode] = useTodoSelect();
-  const selectALL = () => setMode('ALL');
-  const selectTODO = () => setMode('TODO');
-  const selectDONE = () => setMode('DONE');
+
+  function selectToggle(e) {
+    e.preventDefault();
+    for (var i = 0; i < selectBox.current.children.length; i++) {
+      selectBox.current.children[i].classList.remove('select');
+    }
+    e.target.classList.add('select');
+    console.log(mode);
+  }
+
+  const selectALL = (e) => {
+    setMode('ALL');
+    selectToggle(e);
+  };
+  const selectTODO = (e) => {
+    setMode('TODO');
+    selectToggle(e);
+  };
+  const selectDONE = (e) => {
+    setMode('DONE');
+    selectToggle(e);
+  };
 
   return (
     <TodoSelectBlock ref={selectBox}>
       <span className="select" onClick={selectALL}>
-        ALL
+        전체목록
       </span>
-      <span onClick={selectTODO}>TODO</span>
-      <span onClick={selectDONE}>DONE</span>
+      <span onClick={selectTODO}>남은목록</span>
+      <span onClick={selectDONE}>완료목록</span>
     </TodoSelectBlock>
   );
 }

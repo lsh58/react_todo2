@@ -1,11 +1,22 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useTodoDispatch, useTodoNextId } from '../TodoContext';
+import { generateMedia } from 'styled-media-query';
+
+const customMedia = generateMedia({
+  lgDesktop: '1350px',
+  mdDesktop: '1150px',
+  tablet: '960px',
+  smTablet: '740px',
+  mobile: '600px',
+});
 
 const InsertFormPositioner = styled.form`
   width: 60%;
-  min-width: 500px;
   margin: 0 auto;
+  ${customMedia.lessThan('tablet')`
+   width: 90%;
+  `}
 `;
 
 const Input = styled.input`

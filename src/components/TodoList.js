@@ -3,20 +3,30 @@ import styled from 'styled-components';
 import TodoItem from './TodoItem';
 import { useTodoState } from '../TodoContext';
 import { useTodoSelect } from '../TodoContext';
+import { generateMedia } from 'styled-media-query';
+
+const customMedia = generateMedia({
+  lgDesktop: '1350px',
+  mdDesktop: '1150px',
+  tablet: '960px',
+  smTablet: '740px',
+  mobile: '600px',
+});
 
 const TodoListBlock = styled.div`
   width: 60%;
-  min-width: 500px;
   margin: 0 auto;
   background: white;
   border-radius: 5px;
-  padding-bottom: 18px;
   overflow-y: auto;
+  ${customMedia.lessThan('tablet')`
+   width: 90%;
+  `}
 `;
 
 function TodoList() {
   const todos = useTodoState();
-  const [mode, setMode] = useTodoSelect();
+  const [mode] = useTodoSelect();
   switch (mode) {
     case 'ALL':
       return (
@@ -44,6 +54,8 @@ function TodoList() {
                   done={todo.done}
                 />
               );
+            } else {
+              return '';
             }
           })}
         </TodoListBlock>
@@ -61,6 +73,8 @@ function TodoList() {
                   done={todo.done}
                 />
               );
+            } else {
+              return '';
             }
           })}
         </TodoListBlock>
