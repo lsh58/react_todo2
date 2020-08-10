@@ -1,25 +1,13 @@
 import React, { useRef } from 'react';
 import styled from 'styled-components';
 import { useTodoSelect } from '../TodoContext';
-import { generateMedia } from 'styled-media-query';
-
-const customMedia = generateMedia({
-  lgDesktop: '1350px',
-  mdDesktop: '1150px',
-  tablet: '960px',
-  smTablet: '740px',
-  mobile: '600px',
-});
 
 const TodoSelectBlock = styled.div`
-  width: 60%;
+  width: 100%;
   margin: 15px auto; /* 페이지 중앙에 나타나도록 설정 */
   display: flex;
   align-items: center;
   padding-left: 10px;
-  ${customMedia.lessThan('tablet')`
-   width: 90%;
-  `}
   span {
     padding: 1px 7px;
     font-family: 'Noto Sans KR', sans-serif;

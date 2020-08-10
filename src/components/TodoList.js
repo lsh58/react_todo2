@@ -3,25 +3,14 @@ import styled from 'styled-components';
 import TodoItem from './TodoItem';
 import { useTodoState } from '../TodoContext';
 import { useTodoSelect } from '../TodoContext';
-import { generateMedia } from 'styled-media-query';
-
-const customMedia = generateMedia({
-  lgDesktop: '1350px',
-  mdDesktop: '1150px',
-  tablet: '960px',
-  smTablet: '740px',
-  mobile: '600px',
-});
 
 const TodoListBlock = styled.div`
-  width: 60%;
+  width: 100%;
   margin: 0 auto;
+  height: 50vh;
   background: white;
   border-radius: 5px;
   overflow-y: auto;
-  ${customMedia.lessThan('tablet')`
-   width: 90%;
-  `}
 `;
 
 function TodoList() {
